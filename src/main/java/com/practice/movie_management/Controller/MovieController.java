@@ -17,36 +17,54 @@ public class MovieController {
     @Autowired
     private MovieAdvance movie;
 
-    @GetMapping("/")
+    //List all Movies
+    @GetMapping("/all")
     public ResponseEntity<List<Movie>> getAll() {
         return ResponseEntity.ok(movie.getAll());
     }
 
+    //List Movie by id
     @GetMapping("/{id}")
     public ResponseEntity<Movie> getById(@PathVariable int id){
         return ResponseEntity.ok(movie.getId(id));
     }
 
+    //List Movie based on params
+    @GetMapping("/search")
+    public ResponseEntity<List<Movie>> getMoviesByTitleAndRating(
+            @RequestParam String title,
+            @RequestParam double rating) {
+
+        return ResponseEntity.ok(
+                movie.getMoviesByTitleAndRating(title, rating)
+        );
+    }
+
+    //Add new Movie List
+    @PostMapping("/list")
+    public ResponseEntity<List<Movie>> addNew(@RequestBody List<Movie> m){
+        return ResponseEntity.ok(movie.addMovieAll(m));
+    }
+
+    //Add new Movie
     @PostMapping("/new")
-    public ResponseEntity<Movie> addNew(@RequestBody Movie m){
+    public ResponseEntity<Movie> addNewList(@RequestBody Movie m){
         return ResponseEntity.ok(movie.addMovie(m));
     }
 
+    //Update Movie
     @PutMapping("/update")
     public ResponseEntity<Movie> update(@RequestBody Movie m) {
         return ResponseEntity.ok(movie.updateMovie(m));
     }
 
-//    @PutMapping("/update/{id}")
-//    public ResponseEntity<Movie> update(@PathVariable int id, @RequestBody Movie m) {
-//        return ResponseEntity.ok(movie.updateMovie(id, m));
-//    }
-
+    //Delete Movie by id
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) {
         return ResponseEntity.ok(movie.deleteMovie(id));
     }
 
+    //Delete ALL Movies
     @DeleteMapping("/delete")
     public ResponseEntity<String> delete() {
         return ResponseEntity.ok(movie.deleteAll());
