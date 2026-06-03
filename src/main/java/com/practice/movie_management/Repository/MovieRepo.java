@@ -1,5 +1,6 @@
 package com.practice.movie_management.Repository;
 
+import com.practice.movie_management.DTO.MovieDTO;
 import com.practice.movie_management.Entity.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,7 +20,7 @@ public interface MovieRepo extends JpaRepository<Movie, Integer> {
 
     List<Movie> findBy(
             @Param("title")  String title,
-            @Param("ranking") double ranting
+            @Param("rating") double ranting
     );
 }
 

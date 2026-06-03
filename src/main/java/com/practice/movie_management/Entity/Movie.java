@@ -19,11 +19,9 @@ public class Movie {
     //private Integer id;
 
     private int id; //Manual
-
-    @NotBlank(message = "Title is Required")
     private String title;
-
-    @NotBlank(message = "Name is Required")
     private String director;
     private double rating;
+    private String email;
+    private String password;
 }
