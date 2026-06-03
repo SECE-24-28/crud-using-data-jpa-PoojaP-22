@@ -1,6 +1,7 @@
 package com.practice.movie_management.Service;
 
 import com.practice.movie_management.Entity.Movie;
+import com.practice.movie_management.Exception.ResourceNotFoundException;
 import com.practice.movie_management.Repository.MovieRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,12 @@ public class MovieAdvance {
     //GET Movie by id
     public Movie getId(int id){
         return repo.findById(id)
-                   .orElseThrow(() -> new RuntimeException("Movie Not Found"));
+                   .orElseThrow(() ->
+                    new ResourceNotFoundException(
+                "Movie",
+                "id",
+                String.valueOf(id)
+        ));
     }
 
     //POST single Movie
@@ -41,6 +47,13 @@ public class MovieAdvance {
 
     //DELETE Movie by id
     public String deleteMovie(int id){
+        if (!repo.existsById(id)) {
+            throw new ResourceNotFoundException(
+                    "Movie",
+                    "id",
+                    String.valueOf(id)
+            );
+        }
         repo.deleteById(id);
         return "Movie Deleted";
     }
@@ -54,5 +67,14 @@ public class MovieAdvance {
     //GET Movie by passing params
     public List<Movie> getMoviesByTitleAndRating(String title, double rating) {
         return repo.findByTitleAndRating(title, rating);
+    }
+
+    public List<Movie> getMovieByRating(double rating){
+        return repo.findByRating(rating);
+    }
+
+    public List<Movie> getMovieByTandR(String title, double rating) {
+        return repo.findBy(title,rating);
+
     }
 }

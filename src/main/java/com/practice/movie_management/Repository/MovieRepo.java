@@ -2,6 +2,8 @@ package com.practice.movie_management.Repository;
 
 import com.practice.movie_management.Entity.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,7 +12,22 @@ import java.util.List;
 public interface MovieRepo extends JpaRepository<Movie, Integer> {
 
     List<Movie> findByTitleAndRating(String title, double rating);
+    List<Movie> findByRating(double rating);
+
+    @Query(nativeQuery = true,
+            value="SELECT * FROM movies where title=:title And rating=:rating")
+
+    List<Movie> findBy(
+            @Param("title")  String title,
+            @Param("ranking") double ranting
+    );
 }
+
+
+
+
+
+
 //If an interviewer asks:
 //
 //Where is findById() implemented? Your repository is empty.
